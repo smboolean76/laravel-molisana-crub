@@ -43,11 +43,12 @@ class PastaController extends Controller
         // creo l'oggetto model
         $new_pasta = new Pasta();
         // compilo l'oggetto (o meglio le sue proprietà)
-        $new_pasta->title = $data['title'];
-        $new_pasta->type = $data['type'];
-        $new_pasta->cooking_time = $data['cooking_time'];
-        $new_pasta->weight = $data['weight'];
-        $new_pasta->description = $data['description'];
+        // $new_pasta->title = $data['title'];
+        // $new_pasta->type = $data['type'];
+        // $new_pasta->cooking_time = $data['cooking_time'];
+        // $new_pasta->weight = $data['weight'];
+        // $new_pasta->description = $data['description'];
+        $new_pasta->fill($data);
         // salvo (creo a db la riga)
         $new_pasta->save();
 
@@ -75,9 +76,9 @@ class PastaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Pasta $pasta)
     {
-        //
+        return view('pastas.edit', compact('pasta'));
     }
 
     /**
@@ -87,9 +88,14 @@ class PastaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Pasta $pasta)
     {
-        //
+        // recupero tutti i dati del form
+        $data = $request->all();
+        // aggiorno la risorsa per intero
+        $pasta->update($data);
+        // faccio un redirect alla pagina index
+        return redirect()->route('pastas.index');
     }
 
     /**
@@ -98,8 +104,10 @@ class PastaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Pasta $pasta)
     {
-        //
+        $pasta->delete();
+
+        return redirect()->route('pastas.index');
     }
 }
