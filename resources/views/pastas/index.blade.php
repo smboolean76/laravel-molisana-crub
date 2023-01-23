@@ -24,7 +24,7 @@
                     <td>
                       <a href="{{ route('pastas.show', $pasta->id) }}" class="btn btn-primary">Vedi</a>
                       <a href="{{ route('pastas.edit', $pasta->id) }}" class="btn btn-warning">Modifica</a>
-                      <form action="{{ route('pastas.destroy', $pasta->id) }}" method="POST">
+                      <form class="d-inline-block" action="{{ route('pastas.destroy', $pasta->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Cancella</button>

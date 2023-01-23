@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pasta;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PastaController extends Controller
 {
@@ -38,6 +39,17 @@ class PastaController extends Controller
      */
     public function store(Request $request)
     {   
+        $request->validate([
+            'title' => 'required|string|min:5|max:50',
+            'image' => 'nullable|url',
+            'type' => [
+                'required',
+                Rule::in(['corta', 'lunga', 'cortissima']),
+            ],
+            'cooking_time' => 'required|numeric|between:1,20',
+            'weight' => 'required|numeric|between:100,2000',
+            'description' => 'nullable|string'
+        ]);
         // prendo tutti i dati
         $data = $request->all();
         // creo l'oggetto model
@@ -90,6 +102,17 @@ class PastaController extends Controller
      */
     public function update(Request $request, Pasta $pasta)
     {
+        $request->validate([
+            'title' => 'required|string|min:5|max:50',
+            'image' => 'nullable|url',
+            'type' => [
+                'required',
+                Rule::in(['corta', 'lunga', 'cortissima']),
+            ],
+            'cooking_time' => 'required|numeric|between:1,20',
+            'weight' => 'required|numeric|between:100,2000',
+            'description' => 'nullable|string'
+        ]);
         // recupero tutti i dati del form
         $data = $request->all();
         // aggiorno la risorsa per intero
